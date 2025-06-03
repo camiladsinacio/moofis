@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Movies
+{% endblock %}
+
+{% block main %}
+    <h1 class="mb-4">My Movies</h1>
+
+    <a href="/movies/watched" class="btn btn-outline-success mb-4">Watched Movies</a>
+
+    {% if movies %}
+        <div class="row">
+            {% for movie in movies %}
+                <div class="col-12 mb-4">
+                    <div class="card flex-row align-items-center">
+                        {% if movie.poster and movie.poster != "N/A" %}
+                            <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="img-fluid rounded-start" style="width: 150px; height: auto;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ movie.title }} ({{ movie.year }})</h5>
+                            <p class="mb-1"><strong>Genre:</strong> {{ movie.genre }}</p>
+                            <p class="mb-1"><strong>Director:</strong> {{ movie.director }}</p>
+                            <p class="mb-1"><strong>Actors:</strong> {{ movie.actors }}</p>
+                            <p class="mb-1"><strong>IMDB Score:</strong> {{ movie.imdb_rating }}</p>
+                            {% if movie.imdb_id %}
+                                <a href="https://www.imdb.com/title/{{ movie.imdb_id }}" target="_blank" class="text-decoration-none">
+                                    IMDB
+                                </a>
+                            {% endif %}
+                            <div class="mt-2 d-flex justify-content-center gap-2">
+                                <form action="/movies/{{ movie.id }}/watched" method="post">
+                                    <button type="submit" class="btn btn-sm btn-success">Watched</button>
+                                </form>
+                                <form action="/movies/{{ movie.id }}/delete" method="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No movies added yet.</p>
+    {% endif %}
+{% endblock %}

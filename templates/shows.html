@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Shows
+{% endblock %}
+
+{% block main %}
+    <h1 class="mb-4">My Shows</h1>
+
+    <a href="/shows/watched" class="btn btn-outline-success mb-4">Watched Shows</a>
+
+    {% if shows %}
+        <div class="row">
+            {% for show in shows %}
+                <div class="col-12 mb-4">
+                    <div class="card flex-row align-items-center">
+                        {% if show.poster and show.poster != "N/A" %}
+                            <img src="{{ show.poster }}" alt="{{ show.title }}" class="img-fluid rounded-start" style="width: 150px; height: auto;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ show.title }} ({{ show.year }})</h5>
+                            <p class="mb-1"><strong>Genre:</strong> {{ show.genre }}</p>
+                            <p class="mb-1"><strong>Director:</strong> {{ show.director }}</p>
+                            <p class="mb-1"><strong>Actors:</strong> {{ show.actors }}</p>
+                            <p class="mb-1"><strong>IMDB Score:</strong> {{ show.imdb_rating }}</p>
+                            {% if show.imdb_id %}
+                                <a href="https://www.imdb.com/title/{{ show.imdb_id }}" target="_blank" class="text-decoration-none">
+                                    IMDB
+                                </a>
+                            {% endif %}
+                            <div class="mt-2 d-flex justify-content-center gap-2">
+                                <form action="/shows/{{ show.id }}/watched" method="post">
+                                    <button type="submit" class="btn btn-sm btn-success">Watched</button>
+                                </form>
+                                <form action="/shows/{{ show.id }}/delete" method="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No shows added yet.</p>
+    {% endif %}
+{% endblock %}

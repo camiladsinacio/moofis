@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Movie or Show
+{% endblock %}
+
+{% block main %}
+<h1>Add Movie or Show</h1>
+
+<form action="/" method="post" class="position-relative bg-dark p-4 rounded shadow" style="max-width: 500px; margin: auto;">
+    <div class="mb-3 position-relative">
+        <label for="title" class="form-label text-light">Title</label>
+        <input name="title" id="title" autofocus class="form-control bg-dark text-light border-secondary" style="width: 100%" placeholder="Title" required>
+        <!-- Caixinha de sugestoes -->
+        <div id="suggestions" class="list-group position-absolute w-100" style="z-index: 1000;"></div>
+    </div>
+    <div class="mb-3">
+        <label for="imdb_id" class="form-label text-light">IMDB ID</label>
+        <input name="imdb_id" id="imdb_id" class="form-control bg-dark text-light border-secondary" style="width: 100%" placeholder="IMdb ID">
+    </div>
+    <div class="mb-3">
+        <label for="type" class="form-label text-light">Movie or Show?</label>
+        <select name="type" id="type" class="form-select bg-dark text-light border-secondary" style="width: 100%" required>
+            <option value="" disabled selected>Choose type</option>
+            {% for t in types %}
+                <option value="{{ t }}">{{ t.capitalize() }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<!-- JavaScript de autocomplete -->
+ <script>
+const apiKey = "ac04e984";
+const titleInput = document.getElementById("title");
+const suggestionsBox = document.getElementById("suggestions");
+const imdbIdInput = document.getElementById("imdb_id");
+
+titleInput.addEventListener("input", async function () {
+    const query = titleInput.value.trim();
+    if (query.length < 2) {
+        suggestionsBox.innerHTML = "";
+        return;
+    }
+
+    const response = await fetch (`https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(query)}`);
+    const data = await response.json();
+
+    if (data.Search) {
+        suggestionsBox.innerHTML = data.Search.map(item => `
+            <button type="button" class="list-group-item list-group-item-action d-flex align-items-center gap-2" data-imdbid="${item.imdbID}" data-title="${item.Title}">
+                <img src="${item.Poster !== "N/A" ? item.Poster : 'https://via.placeholder.com/50'}" alt="${item.Title}" width="50">
+                <span>${item.Title} (${item.Year})</span>
+            </button>
+        `).join("");
+    } else {
+        suggestionsBox.innerHTML = "<div class='list-group-item'>No results found</div>";
+    }
+});
+
+suggestionsBox.addEventListener("click", function (e) {
+    if (e.target.closest("button")) {
+        const button = e.target.closest("button");
+        titleInput.value = button.getAttribute("data-title");
+        imdbIdInput.value = button.getAttribute("data-imdbid");
+        suggestionsBox.innerHTML = ""; // Hide suggestions
+    }
+});
+ </script>
+{% endblock %}
+

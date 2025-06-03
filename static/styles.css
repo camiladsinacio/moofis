@@ -1,0 +1,96 @@
+/* Dark mode básico */
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.text-muted {
+    color: #b0b0b0 !important;
+}
+
+::placeholder {
+    color: white !important;
+    opacity: 1;
+}
+
+/* Navbar */
+.navbar,
+.navbar-light,
+.navbar-dark {
+    background-color: #1f1f1f !important;
+}
+
+.navbar a,
+.navbar-dark .navbar-nav .nav-link,
+.navbar-light .navbar-nav .nav-link {
+    color: #e0e0e0 !important;
+}
+
+.navbar a:hover {
+    color: #ffffff !important;
+}
+
+/* Cards */
+.card {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border: 1px solid #333;
+}
+
+.card .card-title {
+    color: #ffffff;
+}
+
+.card .btn-success,
+.card .btn-danger {
+    color: #fff;
+}
+
+.card .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.card .btn-success:hover {
+    background-color: #1e7e34;
+    border-color: #1e7e34;
+}
+
+.card .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.card .btn-danger:hover {
+    background-color: #b52b38;
+    border-color: #b52b38;
+}
+
+/* Links gerais */
+a {
+    color: #4dabf7;
+}
+
+a:hover {
+    color: #82caff;
+}
+
+/* Botões principais */
+.btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-outline-success:focus,
+.btn-outline-success:active {
+    background-color: #1e7e34 !important;
+    border-color: #1e7e34 !important;
+    color: #fff !important;
+}
+

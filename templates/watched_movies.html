@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Watched Movies
+{% endblock %}
+
+{% block main %}
+<h1 class="mb-4">Watched Movies</h1>
+
+{% if movies %}
+    <div class="list-group">
+        {% for movie in movies %}
+            <div class="list-group-item-dark d-flex justify-content-between align-items-center flex-wrap">
+                <div class="d-flex flex-column text-start">
+                    <h5 class="mb-1 text-light">{{ movie.title }}</h5>
+                    {% if movie.imdb_id %}
+                        <small>
+                            <a href="https://www.imdb.com/title/{{ movie.imdb_id }}" target="_blank" class="text-decoration-none text-info">
+                                IMDB
+                            </a>
+                        </small>
+                    {% endif %}
+                </div>
+                <div class="d-flex gap-2">
+                    <form action="/movies/{{ movie.id }}/delete" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">No watched movies yet.</p>
+{% endif %}
+{% endblock %}
